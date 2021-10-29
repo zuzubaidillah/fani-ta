@@ -1,0 +1,91 @@
+<template>
+  <div class="page">
+    <div class="sidebarSendiri">
+      <div class="headingSendiri" id="html_heading">
+        <a href="#" class="link back text-color-white" id="btnBackPeta">
+          <i class="icon icon-back"></i>
+          <span class="if-not-md">Back</span>
+        </a>
+        <h1 style="
+                font-size: 22px;
+                margin: 0;
+                font-weight: 400;
+                line-height: 20px;
+                padding: 20px 2px;">Our locations</h1>
+
+        <a href="#" class="text-color-white" id="btnSearchPeta" onclick="click_search()">
+          <i class="icon f7-icons if-not-md">search</i>
+          <i class="icon material-icons md-only">search</i>
+        </a>
+      </div>
+      <div id="listings" class="listings"></div>
+    </div>
+    <div id="map" class="map">
+    </div>
+  </div>
+</template>
+<style scoped>
+  .rotate-icon {
+    transform: rotate(90deg);
+  }
+</style>
+<script>
+  return {
+    methods: {},
+    on: {
+      pageAfterIn: function () {
+        console.log('pageAfterIn');
+      },
+      pageInit: function () {
+        window.screen.orientation.lock('landscape-primary')
+        console.log('pageInit ' + screen.orientation.type); // e.g. portrait
+
+        const map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/light-v10',
+          center: [-77.034084142948, 38.909671288923],
+          zoom: 13,
+          scrollZoom: true
+        });
+
+        const stores = 'data-titik-lokasi.geojson';
+
+        /**
+         * Assign a unique id to each store. You'll use this `id`
+         * later to associate each point on the map with a listing
+         * in the sidebar.
+         */
+        stores.features.forEach((store, i) => {
+          store.properties.id = i;
+        });
+
+        /**
+         * Wait until the map loads to make changes to the map.
+         */
+        map.on('load', () => {
+          /**
+           * This is where your '.addLayer()' used to be, instead
+           * add only the source without styling a layer
+           */
+          map.addSource('places', {
+            'type': 'geojson',
+            'data': stores
+          });
+
+          /**
+           * Add all the things to the page:
+           * - The location listings on the side of the page
+           * - The markers onto the map
+           */
+          buildLocationList(stores, map);
+          addMarkers(stores, map);
+        });
+      },
+      pageBeforeRemove: function () {
+        console.log('pageBeforeRemove');
+        window.screen.orientation.lock('portrait-primary')
+        console.log('pageBeforeRemove ' + screen.orientation.type); // e.g. portrait
+      }
+    }
+  }
+</script>
