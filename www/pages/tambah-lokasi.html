@@ -1,0 +1,257 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title">Tambah Lokasi</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <form>
+        <div class="row">
+          <div class="col-20">
+          </div>
+          <div class="col-80">
+          </div>
+        </div>
+        <div class="list no-hairlines-md">
+          <ul>
+            <li class="item-content item-input row" style="padding-bottom: 15px;">
+              <div class="item-inner col-90">
+                <div class="item-inner col-100">
+                  <div class="item-input-wrap input-dropdown-wrap">
+                    <input type="text" readonly id="tl_lat_lintang"  placeholder="nilai muncul tekan icon gps"/>
+                  </div>
+                </div>
+                <div class="item-inner col-100">
+                  <div class="item-input-wrap input-dropdown-wrap">
+                    <input type="text" readonly id="tl_long_bujur" placeholder="nilai muncul tekan icon gps"/>
+                  </div>
+                </div>
+              </div>
+              <div class="item-inner col-10" style="justify-content: center;">
+                <a href="javascript:void(0);" class="item-media elevation-3 add-data" onclick="click_titik_lokasi_sekarang()">
+                  <i class="f7-icons">map_pin_ellipse</i>
+                </a>
+              </div>
+            </li>
+            <li class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Nama Buah</div>
+                <div class="item-input-wrap">
+                  <input type="text" readonly id="tl_nama_buah" value="Jambu Darsono" />
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input">
+              <div class="item-inner" @click="tambah_pemilik_tanah">
+                <div class="item-title item-label">Pemilik Tanah</div>
+                <div class="item-input-wrap">
+                  <input type="text" readonly id="tl_kepemilikan_tanah" placeholder="Pilih Kepemilikan Tanah" />
+                  <input type="hidden" id="tl_kepemilikan_tanah_id" />
+                </div>
+              </div>
+            </li>
+            <li class="item-content item-input row" style="padding-bottom: 15px;">
+              <div class="item-inner col-90">
+                <div class="item-title item-label">Nama Dusun</div>
+                <div class="item-input-wrap input-dropdown-wrap">
+                  <select name="tl_nama_dusun" id="tl_nama_dusun" @change="click_pilih_nama_dusun" placeholder="Please choose...">
+                    <option value="">--Pilih Dusun--</option>
+                  </select>
+                </div>
+              </div>
+              <div class="item-inner col-10">
+                <div class="item-title item-label"></div>
+                <a href="/tambah-dusun/" class="item-media elevation-3 add-data">
+                  <i class="icon material-icons md-only">add</i>
+                </a>
+              </div>
+            </li>
+            <li class="item-content item-input row" style="padding-bottom: 15px;">
+              <div class="item-inner col-90">
+                <div class="item-title item-label">Jenis Buah</div>
+                <div class="item-input-wrap input-dropdown-wrap">
+                  <select name="tl_jenis_buah" id="tl_jenis_buah" placeholder="Please choose...">
+                    <option value="">--Pilih Jenis Buah--</option>
+                  </select>
+                </div>
+              </div>
+              <div class="item-inner col-10">
+                <div class="item-title item-label"></div>
+                <a href="javascript::" @click="click_tambah_jenis_buah" class="item-media elevation-3 add-data">
+                  <i class="icon material-icons md-only">add</i>
+                </a>
+              </div>
+            </li>
+            <li class="item-content item-input elevation-2">
+              <div class="item-inner">
+                <div class="item-title item-label">Keterangan</div>
+                <div class="item-input-wrap">
+                  <div class="text-editor text-editor-init" data-placeholder="Enter text..."
+                    data-buttons='[["bold", "italic", "underline", "strikeThrough"], ["orderedList", "unorderedList"]]'>
+                    <div class="text-editor-content" id="tl_keterangan" contenteditable></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="list block">
+          <ul>
+            <li style="margin-bottom: 5px;" class="row">
+              <a href="#" class="col button button-fill color-blue" @click="click_simpan_lokasi">Simpan</a>
+              <a href="#" class="col button button-fill color-red" @click="click_batal_lokasi">Batal</a>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    methods: {
+      tambah_pemilik_tanah: function () {
+        // pindah ke halaman lain menggunakan navigate
+        app.views.main.router.navigate("/tambah-pemilik-tanah/");
+      },
+      click_simpan_lokasi: function () {
+        var $ = this.$;
+        var app = this.$app;
+        var router = this.$router;
+
+        // mendeklarasaikan nilai ke variabel
+        var tl_detail_acara = $('#tl_detail_acara').html();
+        var tl_no_hp = $('#tl_no_hp').val();
+        var tl_tanggal = $('#tl_tanggal').val();
+        var tl_nama_kamu = $('#tl_nama_kamu').val();
+        var tl_jenis_buah = $('#tl_jenis_buah').val();
+        var tl_kota = $('#tl_kota').val();
+        var tl_nama_instansi = $('#tl_nama_instansi').val();
+        var tl_keperluan_id = $('#tl_keperluan_id').val();
+
+        // melakukan debug (pengujian)
+        console.log(tl_keperluan_id);
+        console.log(tl_nama_instansi);
+        console.log(tl_kota);
+        console.log(tl_daerah);
+        console.log(tl_nama_kamu);
+        console.log(tl_tanggal);
+        console.log(tl_no_hp);
+        console.log(tl_detail_acara);
+
+        // peringatan ketika masih ada yang kosong
+        if (tl_keperluan_id == '' || tl_nama_instansi == '' || tl_kota == '' || tl_daerah == '' || tl_nama_kamu ==
+          '' || tl_tanggal == '' || tl_no_hp == '' || tl_detail_acara == '') {
+          app.dialog.alert("Dimohon Melengkapi Data", 'Pemberitahuan');
+          return;
+        }
+
+        // post ke server-api proses simpan data
+        app.request.post(api_post_tambah_kunjungan, {
+          keperluan_id: tl_keperluan_id,
+          nama_instansi: tl_nama_instansi,
+          kota: tl_kota,
+          daerah: tl_daerah,
+          nama_kamu: tl_nama_kamu,
+          tanggal: tl_tanggal,
+          no_hp: tl_no_hp,
+          detail_acara: tl_detail_acara,
+          id_user: localStorage.ss_id_user,
+        }, function (data, status, xhr) {
+          console.log(data);
+          console.log(status);
+          // console.log(xhr);
+
+          if (data['status'] === 'Sukses') {
+            app.dialog.alert(data['message'], 'Pemberitahuan', function () {
+              $('#tl_keperluan').val('');
+              $('#tl_keperluan_id').val('');
+              $('#tl_nama_instansi').val('');
+              $('#tl_kota').val('');
+              $('#tl_daerah').html('<option value="">--Pilih Kota--</option>');
+              $('#tl_nama_kamu').val('');
+              $('#tl_tanggal').val('');
+              $('#tl_no_hp').val('');
+              $('#tl_detail_acara').html('<div class="text-editor-placeholder">Enter text...</div>');
+
+              // load data kunjungan di index
+              load_data_kunjungan(1, 5, 'refresh');
+
+              // pindah view
+              app.views.main.router.back();
+            });
+          } else {
+            app.dialog.alert(data['message'], 'Peringatan');
+          }
+
+        }, function (xhr, status, message) {
+          // console.log(xhr);
+          console.log(status);
+          console.log(message);
+
+          // panggil fungsi untuk menampilkan error
+          info_error(status);
+        }, "json");
+      },
+      click_batal_lokasi: function () {
+        var $ = this.$;
+        var app = this.$app;
+        var router = this.$router;
+      },
+      click_tambah_jenis_buah: function () {
+        var $ = this.$;
+        var app = this.$app;
+        var router = this.$router;
+
+        // mengambil nilai dari pilihan kota
+        var nama_kota = $('#tl_kota').val();
+        console.log(nama_kota);
+
+        // jika pilihan kota blm dipilih
+        if (nama_kota == '') {
+          app.dialog.alert('Kota Masih Belum Diisi.', 'Info');
+          return; // berhentikan code javascript
+        }
+
+        // pindah ke halaman lain menggunakan navigate
+        app.views.main.router.navigate("/tambah-daerah/?id_kota=" + nama_kota);
+      },
+      click_pilih_nama_dusun: function () {
+        var $ = this.$;
+        var app = this.$app;
+        var router = this.$router;
+        var nama_kota = $('#tl_kota').val();
+        console.log('click_pilih_nama_dusun ' + nama_kota);
+
+        // load data daerah sesuai kota
+        load_data_daerah_select(nama_kota);
+
+      }
+
+
+    },
+    on: {
+      pageInit: function (page) {
+        console.log('pageInit');
+        var self = this;
+        var app = self.$app;
+        var fruits = self.fruits;
+        var $ = self.$;
+
+        window.screen.orientation.lock('portrait-primary');
+
+      },
+      pageBeforeRemove: function () {
+        console.log('pageBeforeRemove');
+      }
+    }
+  }
+</script>

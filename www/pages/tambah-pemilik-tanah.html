@@ -1,0 +1,232 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title">Tambah Pemilik Tanah</div>
+      </div>
+    </div>
+
+    <div class="card elevation-10" style="border-radius: 15px; top: 65px; z-index: 450;">
+      <div class="list" style="margin-top: 10px;">
+        <div class="item-content item-input">
+          <div class="col-15" style="margin-top: 5px;">
+            <div class="item-media">
+              <i class="icon f7-icons">doc_plaintext</i>
+            </div>
+          </div>
+          <div class="item-inner" style="margin-top: 5px;">
+            <div class="item-title item-label">Nama Pemilik*</div>
+            <div class="item-input-wrap">
+              <input type="text" id="tpt_nama_pemilik" autofocus autocomplete="off" placeholder="tulis kota disini" maxlength="55">
+            </div>
+          </div>
+        </div>
+        <div class="item-content item-input">
+          <div class="col-15" style="margin-top: 5px;">
+            <div class="item-media">
+              <i class="icon f7-icons">doc_plaintext</i>
+            </div>
+          </div>
+          <div class="item-inner" style="margin-top: 5px;">
+            <div class="item-title item-label">Nomor WA*</div>
+            <div class="item-input-wrap">
+              <input type="number" maxlength="15" id="tpt_nomor" autocomplete="off" placeholder="contoh: 628xxx">
+            </div>
+          </div>
+        </div>
+        <div class="block" style="padding-bottom: 10px;">
+          <p class="row">
+            <button type="button" class="col button button-fill color-green"
+              @click="click_tambah_pemilik_tanah">Tambah</button>
+            <button type="button" class="col button button-fill color-red" id="tambah-kota-input-kosong"
+              @click="click_batal">Batal</button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-content" style="height: 80%;">
+      <!-- list kota -->
+      <div style="margin-top: -25px;">
+        <div class="block-title block-title-medium" style="color: rgb(85, 85, 85)">
+          Hasil Data
+          <span class="badge color-red" id="tpt_total_data">0</span>
+        </div>
+        <div id="tpt_blok_data" class="list">
+
+          <!-- preloader -->
+          <div class="block block-strong text-align-center">
+            <div class="preloader color-multi">
+              <span class="preloader-inner">
+                <span class="preloader-inner-gap"></span>
+                <span class="preloader-inner-left">
+                  <span class="preloader-inner-half-circle"></span>
+                </span>
+                <span class="preloader-inner-right">
+                  <span class="preloader-inner-half-circle"></span>
+                </span>
+              </span>
+            </div>
+          </div>
+          <!-- preloader -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    methods: {
+      click_tambah_pemilik_tanah: function () {
+        cek_localstorage();
+        var $ = this.$;
+        var app = this.$app;
+        var router = this.$router;
+        var self = this;
+
+        // ambil nilai dari input
+        var n = $('#tpt_nama_pemilik').val();
+        var no = $('#tpt_nomor').val();
+        console.log('click_tambah_pemilik_tanah');
+
+        // cek nama
+        if (n == '' || no == '') {
+          app.dialog.alert('Data ada yang kosong!', 'Pemberitahuan');
+          return;
+        }
+
+        app.request.post(api_pemilik_tanah_tambah, {
+          auth_key: localStorage.ls_id_user,
+          nama_pemilik: n,
+          nomor_wa: no
+        }, function (data, status, xhr) {
+          console.log(data);
+          console.log(status);
+          // console.log(xhr);
+
+          // cek jika status yang dikirim dari backend adalah Sukses
+          if (data['status'] === 'sukses') {
+            app.dialog.alert(data['message'], 'Pemberitahuan', function () {
+              // refresh data kota : panggil fungsi
+              load_data_pemilik_tanah();
+
+              // menghilangkan text pada input dengan attribute tpt_nama_pemilik 
+              self.click_batal();
+
+            });
+          } else if (data['status'] === 'error') {
+            app.dialog.alert(data['message'], 'Pemberitahuan');
+          }
+
+        }, function (xhr, status, message) {
+          // console.log(xhr);
+          console.log(status);
+          console.log(message);
+          // panggil fungsi untuk menampilkan error
+          info_error(status);
+        }, "json");
+      },
+      click_batal: function () {
+        var $ = this.$;
+        var app = this.$app;
+        var router = this.$router;
+
+        // memberikan nilai emty pada input
+        $('#tpt_nama_pemilik').val('');
+        $('#tpt_nomor').val('628');
+        $('#tpt_nama_pemilik').focus();
+        console.log('click_batal');
+      }
+    },
+    on: {
+      pageInit: function (page) {
+        cek_localstorage();
+        console.log('pageInit kota');
+
+        // import
+        var self = this;
+        var app = self.$app;
+        var fruits = self.fruits;
+        var $ = self.$;
+
+        window.screen.orientation.lock('portrait-primary');
+        
+        // refresh data kota : panggil fungsi
+        load_data_pemilik_tanah();
+
+        var nama = $('#tpt_nama_pemilik').val();
+
+        // pengecekan setiap keyboard diketik
+        $('#tpt_nama_pemilik').keyup(function () {
+          var dInput = this.value;
+          console.log($('#tpt_nama_pemilik').val());
+
+          // ambil nilai
+          var nama = $('#tpt_nama_pemilik').val();
+          app.request({
+            url: api_pemilik_tanah_cari,
+            method: 'POST',
+            dataType: 'json',
+            data: {
+              query: nama,
+            },
+            success: function (data) {
+              console.log(data);
+
+              // cek status
+              if (data['status'] == 'Sukses') {
+
+                // menampilkan jumlah data
+                var totalData = data['meta']['totalData'];
+                $('#tpt_total_data').html(totalData);
+
+                var hasil = '';
+                // Find matched items
+                for (var i = 0; i < data['data'].length; i++) {
+                  var id = data['data'][i].idKota;
+                  var na = data['data'][i].nama_kota;
+                  hasil += `<li>
+                    <a href="#" class="item-link item-content" data-kode="` + id + `" data-nama="` + na + `">
+                      <div class="item-media"><i class="f7-icons">doc_plaintext</i></div>
+                      <div class="item-inner">
+                        <div class="item-title">` + na + `</div>
+                      </div>
+                    </a>
+                  </li>`;
+                }
+                $('#tpt_blok_data').html('<ul>' + hasil + '</ul>');
+              } else if (data['status'] == 'tidak_ditemukan') {
+                // menampilkan jumlah data
+                $('#tpt_total_data').html(0);
+
+                // hasil tampilan
+                hasil = `<li>
+                  <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="f7-icons">doc_plaintext</i></div>
+                    <div class="item-inner">
+                      <div class="" style="font-size: 12px;">Pemilik <b>`+ nama + `</b> tidak ditemukan. silahkan klik Tambah</div>
+                    </div>
+                  </a>
+                </li>`;
+                $('#tpt_blok_data').html('<ul>' + hasil + '</ul>');
+              }
+            }
+          });
+
+        });
+
+      },
+      pageBeforeRemove: function () {
+        console.log('pageBeforeRemove');
+      }
+    }
+  }
+</script>

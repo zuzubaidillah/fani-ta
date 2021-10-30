@@ -204,6 +204,16 @@
       height: 30px;
 
     } */
+
+
+    .add-data {
+      text-align: center !important;
+      justify-content: center !important;
+      border-radius: 25px !important;
+      min-width: 29px !important;
+      height: 29px !important;
+      background-image: linear-gradient(45deg, #7ece4c, #31ffff);
+    }
   </style>
 </head>
 
@@ -316,9 +326,15 @@
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script src="js/data-titik-lokasi.js"></script>
     <script src="js/titik-lokasi.js"></script>
+    <script src="js/tambah-lokasi.js"></script>
+    <script src="js/tambah-pemilik-tanah.js"></script>
     <script type="text/javascript" charset="utf-8">
-      if (localStorage.ls_id_user == '' || localStorage.ls_id_user == undefined) {
-        cek_tabel_users();
+      cek_localstorage();
+
+      function cek_localstorage() {
+        if (localStorage.ls_id_user == '' || localStorage.ls_id_user == undefined) {
+          cek_tabel_users();
+        }
       }
 
       function cek_tabel_users() {
@@ -491,6 +507,7 @@
       }
 
       // -7.5216032,112.2381195
+      window.screen.orientation.lock('portrait-primary');
       console.log(screen.orientation.type); // e.g. portrait
       // var hasil = '';
       // var onSuccess = function (position) {
@@ -519,23 +536,23 @@
       //   $('#blok_data_kota').append('<ul>' + hasil + '</ul>');
       // };
 
-      function onError(error) {
-        console.log('code: ' + error.code + '\n' +
-          'message: ' + error.message + '\n');
+      // function onError(error) {
+      //   console.log('code: ' + error.code + '\n' +
+      //     'message: ' + error.message + '\n');
 
-        setTimeout(() => {
-          alert(`GPS off, Nyalakan untuk accuracy yang lebih pas. Terimakasih ${error.code}`, 'pemberitahuan');
-        }, 8000);
-      }
-      // Options: throw an error if no update is received every 30 seconds.
-      function load_titik_coordinat() {
-        var options = {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0
-        };
-        navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
-      }
+      //   setTimeout(() => {
+      //     alert(`GPS off, Nyalakan untuk accuracy yang lebih pas. Terimakasih ${error.code}`, 'pemberitahuan');
+      //   }, 8000);
+      // }
+      // // Options: throw an error if no update is received every 30 seconds.
+      // function load_titik_coordinat() {
+      //   var options = {
+      //     enableHighAccuracy: true,
+      //     timeout: 5000,
+      //     maximumAge: 0
+      //   };
+      //   navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+      // }
 
 
       /**
@@ -672,6 +689,28 @@
         }
         app.preloader.hide();
       }
+
+      function preload_div(id) {
+        var hasil = `<div class="block block-strong text-align-center">
+            <div class="preloader color-multi">
+                <span class="preloader-inner">
+                    <span class="preloader-inner-gap"></span>
+                    <span class="preloader-inner-left">
+                        <span class="preloader-inner-half-circle"></span>
+                    </span>
+                    <span class="preloader-inner-right">
+                        <span class="preloader-inner-half-circle"></span>
+                    </span>
+                </span>
+            </div>
+        </div>`;
+        $('#' + id).html(hasil);
+      }
+
+
+      // TAMBAHH-LOKASII
+      // TITIKK-LOKASII
+      // TAMBAHH-PEMILIKK-TANAHH
     </script>
 </body>
 

@@ -60,5 +60,9 @@ var api_users = url + "users";
 var api_lokasi_all = url + "lokasi/all";
 var api_lokasi_cari = url + "lokasi/cari";
 
+var api_pemilik_tanah_all = url + "pemilik_tanah/all";
+var api_pemilik_tanah_cari = url + "pemilik_tanah/cari";
+var api_pemilik_tanah_tambah = url + "pemilik_tanah/tambah";
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJpZnJhY2htYW4iLCJhIjoiY2sxNGdneWpvMGJ5YTNjcnRrNWgwa2N0biJ9.aCcIajF5mmbEHoZ8c0HxOA';

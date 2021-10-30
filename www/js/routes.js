@@ -20,6 +20,10 @@ var routes = [
     componentUrl: './pages/tambah-lokasi.html',
   },
   {
+    path: '/tambah-pemilik-tanah/',
+    componentUrl: './pages/tambah-pemilik-tanah.html',
+  },
+  {
     path: '/pengguna/',
     componentUrl: './pages/pengguna.html',
   },
