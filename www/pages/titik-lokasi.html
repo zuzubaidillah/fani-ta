@@ -39,7 +39,15 @@
         window.screen.orientation.lock('landscape-primary');
         console.log('pageInit ' + screen.orientation.type); // e.g. portrait
 
-        load_lokasi_all();
+        const mapTitikLokasi = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/light-v10',
+          center: [-77.034084142948, 38.909671288923],
+          zoom: 11,
+          scrollZoom: true
+        });
+        localStorage.setItem('mapTitikLokasi', mapTitikLokasi);
+        load_lokasi_all(mapTitikLokasi);
 
       },
       pageBeforeRemove: function () {

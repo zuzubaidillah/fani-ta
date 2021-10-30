@@ -1,18 +1,9 @@
 class Titiklokasi {
-  constructor() {
-    this.mapT;
-    this.ltlg = '';
+  constructor(mapp) {
+    this.mapT = mapp;
   }
 
   tampilMap(data_titik_lokasi) {
-
-    this.mapT = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/light-v10',
-      center: [-77.034084142948, 38.909671288923],
-      zoom: 11,
-      scrollZoom: true
-    });
     const stores = data_titik_lokasi;
     /**
      * Assign a unique id to each store. You'll use this `id`
@@ -46,35 +37,55 @@ class Titiklokasi {
 
       // Geographic coordinates of the LineString
       const coordinates = stores.all_coordinates;
-      console.log('banyak '+coordinates.length);
-      if (coordinates.length==1) {
-        this.mapT.flyTo({
-          center: coordinates[0],
-          zoom: 14
-      });
-      }else{
 
-        console.log(coordinates);
+      console.log(coordinates);
+      if (coordinates.length>1) {
         // Create a 'LngLatBounds' with both corners at the first coordinate.
         const bounds = new mapboxgl.LngLatBounds(
           coordinates[0],
           coordinates[0]
         );
-  
+        console.log(bounds);
+
         // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
         for (const coord of coordinates) {
           bounds.extend(coord);
+          console.log(bounds.extend(coord));
         }
   
         this.mapT.fitBounds(bounds, {
           padding: 80
         });
-
       }
     });
   }
 
+  mapp(){
+    const mapTitikLokasi = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/light-v10',
+      center: [-77.034084142948, 38.909671288923],
+      zoom: 11,
+      scrollZoom: true
+    });
+    return mapTitikLokasi;
+  }
+
 }
+
+// class Clasmap {
+//   fungsi_map(){
+//     const mapTitikLokasi = new mapboxgl.Map({
+//       container: 'map',
+//       style: 'mapbox://styles/mapbox/light-v10',
+//       center: [-77.034084142948, 38.909671288923],
+//       zoom: 11,
+//       scrollZoom: true
+//     });
+//     return mapTitikLokasi;
+//   }
+// }
+
 
 function click_search() {
 
@@ -112,18 +123,25 @@ function click_cancel_cari() {
         </a>`;
   $('#html_heading').html(h);
   $('#kata_kunci').val('');
-  load_lokasi_all();
+  // load_lokasi_all();
 }
+
+// const mmap = new mapboxgl.Map({
+//   container: 'map',
+//   style: 'mapbox://styles/mapbox/light-v10',
+//   center: [-77.034084142948, 38.909671288923],
+//   zoom: 11,
+//   scrollZoom: true
+// });
 
 function ketikan_kata_kunci() {
   var kata_kunci = $('#kata_kunci').val();
   console.log(kata_kunci);
 
-  // var mapaTitikLokasi = new Titiklokasi();
-  // mapaTitikLokasi.tampilMap(data_titik_lokasi);
-
   app.preloader.show();
-  app.request.post(api_lokasi_cari + '?s=' + kata_kunci, { auth_key: localStorage.ls_id_user }, function (data, status, xhr) {
+  app.request.post(api_lokasi_cari + '?s=' + kata_kunci, {
+    auth_key: localStorage.ls_id_user
+  }, function (data, status, xhr) {
     console.log(data);
     console.log(status);
     // console.log(xhr);
@@ -131,8 +149,17 @@ function ketikan_kata_kunci() {
     if (data['status'] === 'sukses') {
       var hasil = data['data'];
 
-      var mapaTitikLokasi = new Titiklokasi();
-      mapaTitikLokasi.tampilMap(hasil);
+      // var mapTitikLokasi = new Clasmap();
+      // mapTitikLokasi.fungsi_map();
+      const mmap = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v10',
+        center: [-77.034084142948, 38.909671288923],
+        zoom: 11,
+        scrollZoom: true
+      });
+      var mapp = new Titiklokasi(mmap);
+      mapp.tampilMap(hasil);
     } else {
       // app.dialog.alert(data['message'], 'Peringatan');
       var toast = app.toast.create({
@@ -155,9 +182,12 @@ function ketikan_kata_kunci() {
   }, "json");
 }
 
-function load_lokasi_all() {
+function load_lokasi_all(mapTitikLokasi) {
+  console.log('load_lokasi_all');
   app.preloader.show();
-  app.request.post(api_lokasi_all, { auth_key: localStorage.ls_id_user }, function (data, status, xhr) {
+  app.request.post(api_lokasi_all, {
+    auth_key: localStorage.ls_id_user
+  }, function (data, status, xhr) {
     console.log(data);
     console.log(status);
     // console.log(xhr);
@@ -165,8 +195,9 @@ function load_lokasi_all() {
     if (data['status'] === 'sukses') {
       var hasil = data['data'];
 
-      var mapaTitikLokasi = new Titiklokasi();
-      mapaTitikLokasi.tampilMap(hasil);
+      console.log(mapTitikLokasi);
+      var mapp = new Titiklokasi(mapTitikLokasi);
+      mapp.tampilMap(hasil);
     } else {
       app.dialog.alert(data['message'], 'Peringatan');
       app.views.main.router.back();
