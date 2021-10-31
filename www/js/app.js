@@ -64,5 +64,13 @@ var api_pemilik_tanah_all = url + "pemilik_tanah/all";
 var api_pemilik_tanah_cari = url + "pemilik_tanah/cari";
 var api_pemilik_tanah_tambah = url + "pemilik_tanah/tambah";
 
+var api_dusun_all = url + "dusun/all";
+var api_dusun_cari = url + "dusun/cari";
+var api_dusun_tambah = url + "dusun/tambah";
+
+var api_jenis_buah_all = url + "jenis_buah/all";
+var api_jenis_buah_cari = url + "jenis_buah/cari";
+var api_jenis_buah_tambah = url + "jenis_buah/tambah";
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJpZnJhY2htYW4iLCJhIjoiY2sxNGdneWpvMGJ5YTNjcnRrNWgwa2N0biJ9.aCcIajF5mmbEHoZ8c0HxOA';

@@ -160,6 +160,10 @@ function ketikan_kata_kunci() {
       });
       var mapp = new Titiklokasi(mmap);
       mapp.tampilMap(hasil);
+    } else if (data['status'] === 'auth_salah') {
+      app.dialog.alert('Terjadi '+data['message']+' Login Kembali!', 'Pemberitahuan', function(){
+        click_logout();
+      });
     } else {
       // app.dialog.alert(data['message'], 'Peringatan');
       var toast = app.toast.create({
@@ -198,6 +202,10 @@ function load_lokasi_all(mapTitikLokasi) {
       console.log(mapTitikLokasi);
       var mapp = new Titiklokasi(mapTitikLokasi);
       mapp.tampilMap(hasil);
+    } else if (data['status'] === 'auth_salah') {
+      app.dialog.alert('Terjadi '+data['message']+' Login Kembali!', 'Pemberitahuan', function(){
+        click_logout();
+      });
     } else {
       app.dialog.alert(data['message'], 'Peringatan');
       app.views.main.router.back();

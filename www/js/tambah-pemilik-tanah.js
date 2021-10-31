@@ -32,7 +32,11 @@ function load_data_pemilik_tanah() {
         </li>`;
       }
       $('#tpt_blok_data').html('<ul>' + hasil + '</ul>');
-    }else{
+    }else if (data['status'] === 'auth_salah') {
+      app.dialog.alert('Terjadi '+data['message']+' Login Kembali!', 'Pemberitahuan', function(){
+        click_logout();
+      });
+    } else{
       $('#tpt_blok_data').html('');
       app.dialog.alert(data['message'], 'Pemberitahuan');
     }

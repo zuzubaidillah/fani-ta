@@ -37,7 +37,8 @@
               </div>
               <div class="item-inner col-10" style="justify-content: center;">
                 <a href="javascript:void(0);" class="item-media elevation-3 add-data" onclick="click_titik_lokasi_sekarang()">
-                  <i class="f7-icons">map_pin_ellipse</i>
+                  <!-- <i class="f7-icons">map_pin_ellipse</i> -->
+                  {{tooltipIconGps}}
                 </a>
               </div>
             </li>
@@ -62,7 +63,7 @@
               <div class="item-inner col-90">
                 <div class="item-title item-label">Nama Dusun</div>
                 <div class="item-input-wrap input-dropdown-wrap">
-                  <select name="tl_nama_dusun" id="tl_nama_dusun" @change="click_pilih_nama_dusun" placeholder="Please choose...">
+                  <select name="tl_nama_dusun" id="tl_nama_dusun" placeholder="Please choose...">
                     <option value="">--Pilih Dusun--</option>
                   </select>
                 </div>
@@ -78,14 +79,14 @@
               <div class="item-inner col-90">
                 <div class="item-title item-label">Jenis Buah</div>
                 <div class="item-input-wrap input-dropdown-wrap">
-                  <select name="tl_jenis_buah" id="tl_jenis_buah" placeholder="Please choose...">
+                  <select name="tl_nama_jenis_buah" id="tl_nama_jenis_buah" placeholder="Please choose...">
                     <option value="">--Pilih Jenis Buah--</option>
                   </select>
                 </div>
               </div>
               <div class="item-inner col-10">
                 <div class="item-title item-label"></div>
-                <a href="javascript::" @click="click_tambah_jenis_buah" class="item-media elevation-3 add-data">
+                <a href="javascript:void(0);" @click="click_tambah_jenis_buah" class="item-media elevation-3 add-data">
                   <i class="icon material-icons md-only">add</i>
                 </a>
               </div>
@@ -117,6 +118,14 @@
 </template>
 <script>
   return {
+    data: function () {
+      var iconGps = this.$theme.ios
+        ? '<i style="font-size: 20px" class="icon f7-icons icon-tooltip-gps">info_circle_fill</i>'
+        : '<i class="f7-icons icon-tooltip-gps">placemark_fill</i>';
+      return {
+        tooltipIconGps: iconGps,
+      };
+    },
     methods: {
       tambah_pemilik_tanah: function () {
         // pindah ke halaman lain menggunakan navigate
@@ -210,33 +219,9 @@
         var $ = this.$;
         var app = this.$app;
         var router = this.$router;
-
-        // mengambil nilai dari pilihan kota
-        var nama_kota = $('#tl_kota').val();
-        console.log(nama_kota);
-
-        // jika pilihan kota blm dipilih
-        if (nama_kota == '') {
-          app.dialog.alert('Kota Masih Belum Diisi.', 'Info');
-          return; // berhentikan code javascript
-        }
-
         // pindah ke halaman lain menggunakan navigate
-        app.views.main.router.navigate("/tambah-daerah/?id_kota=" + nama_kota);
-      },
-      click_pilih_nama_dusun: function () {
-        var $ = this.$;
-        var app = this.$app;
-        var router = this.$router;
-        var nama_kota = $('#tl_kota').val();
-        console.log('click_pilih_nama_dusun ' + nama_kota);
-
-        // load data daerah sesuai kota
-        load_data_daerah_select(nama_kota);
-
+        app.views.main.router.navigate("/tambah-jenis-buah/");
       }
-
-
     },
     on: {
       pageInit: function (page) {
@@ -247,6 +232,13 @@
         var $ = self.$;
 
         window.screen.orientation.lock('portrait-primary');
+        self.iconTooltip = app.tooltip.create({
+          targetEl: '.icon-tooltip-gps',
+          text: 'Tekan untuk menentukan lokasi anda!',
+        });
+
+        load_data_dusun_select();
+        load_data_jenis_buah_select();
 
       },
       pageBeforeRemove: function () {

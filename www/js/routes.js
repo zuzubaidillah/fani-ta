@@ -24,6 +24,14 @@ var routes = [
     componentUrl: './pages/tambah-pemilik-tanah.html',
   },
   {
+    path: '/tambah-dusun/',
+    componentUrl: './pages/tambah-dusun.html',
+  },
+  {
+    path: '/tambah-jenis-buah/',
+    componentUrl: './pages/tambah-jenis-buah.html',
+  },
+  {
     path: '/pengguna/',
     componentUrl: './pages/pengguna.html',
   },

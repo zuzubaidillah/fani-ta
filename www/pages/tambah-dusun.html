@@ -9,7 +9,12 @@
             <span class="if-not-md">Back</span>
           </a>
         </div>
-        <div class="title">Tambah Pemilik Tanah</div>
+        <div class="title">Tambah Dusun</div>
+        <div class="right">
+          <a href="#" class="link" @click="click_reload">
+            <i class="icon f7-icons">repeat</i>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -22,30 +27,15 @@
             </div>
           </div>
           <div class="item-inner" style="margin-top: 5px;">
-            <div class="item-title item-label">Nama Pemilik*</div>
+            <div class="item-title item-label">Nama Dusun*</div>
             <div class="item-input-wrap">
-              <input type="text" id="tpt_nama_pemilik" autofocus autocomplete="off" placeholder="tulis nama disini"
-                maxlength="55">
-            </div>
-          </div>
-        </div>
-        <div class="item-content item-input">
-          <div class="col-15" style="margin-top: 5px;">
-            <div class="item-media">
-              <i class="icon f7-icons">doc_plaintext</i>
-            </div>
-          </div>
-          <div class="item-inner" style="margin-top: 5px;">
-            <div class="item-title item-label">Nomor WA*</div>
-            <div class="item-input-wrap">
-              <input type="number" maxlength="15" id="tpt_nomor" autocomplete="off" placeholder="contoh: 628xxx">
+              <input type="text" id="td_nama_dusun" autofocus autocomplete="off" placeholder="tulis nama disini" maxlength="55">
             </div>
           </div>
         </div>
         <div class="block" style="padding-bottom: 10px;">
           <p class="row">
-            <button type="button" class="col button button-fill color-green"
-              @click="click_tambah_pemilik_tanah">Tambah</button>
+            <button type="button" class="col button button-fill color-green" @click="click_tambah_dusun">Tambah</button>
             <button type="button" class="col button button-fill color-red" @click="click_batal">Batal</button>
           </p>
         </div>
@@ -56,9 +46,9 @@
       <div style="margin-top: -25px;">
         <div class="block-title block-title-medium" style="color: rgb(85, 85, 85)">
           Hasil Data
-          <span class="badge color-red" id="tpt_total_data">0</span>
+          <span class="badge color-red" id="td_total_data">0</span>
         </div>
-        <div id="tpt_blok_data" class="list">
+        <div id="td_blok_data" class="list">
 
           <!-- preloader -->
           <div class="block block-strong text-align-center">
@@ -84,7 +74,7 @@
 <script>
   return {
     methods: {
-      click_tambah_pemilik_tanah: function () {
+      click_tambah_dusun: function () {
         cek_localstorage();
         var $ = this.$;
         var app = this.$app;
@@ -92,20 +82,18 @@
         var self = this;
 
         // ambil nilai dari input
-        var n = $('#tpt_nama_pemilik').val();
-        var no = $('#tpt_nomor').val();
-        console.log('click_tambah_pemilik_tanah');
+        var n = $('#td_nama_dusun').val();
+        console.log('click_tambah_dusun');
 
         // cek nama
-        if (n == '' || no == '') {
+        if (n == '') {
           app.dialog.alert('Data ada yang kosong!', 'Pemberitahuan');
           return;
         }
 
-        app.request.post(api_pemilik_tanah_tambah, {
+        app.request.post(api_dusun_tambah, {
           auth_key: localStorage.ls_id_user,
-          nama_pemilik: n,
-          nomor_wa: no
+          nama_dusun: n
         }, function (data, status, xhr) {
           console.log(data);
           console.log(status);
@@ -114,9 +102,9 @@
           // cek jika status yang dikirim dari backend adalah Sukses
           if (data['status'] === 'sukses') {
             app.dialog.alert(data['message'], 'Pemberitahuan', function () {
-              load_data_pemilik_tanah();
+              load_data_dusun();
 
-              // menghilangkan text pada input dengan attribute tpt_nama_pemilik 
+              // menghilangkan text pada input dengan attribute td_nama_dusun 
               self.click_batal();
 
             });
@@ -136,22 +124,29 @@
           info_error(status);
         }, "json");
       },
+      click_reload: function(){
+        var $ = this.$;
+        var app = this.$app;
+        var router = this.$router;
+
+        load_data_dusun();
+
+      },
       click_batal: function () {
         var $ = this.$;
         var app = this.$app;
         var router = this.$router;
 
         // memberikan nilai emty pada input
-        $('#tpt_nama_pemilik').val('');
-        $('#tpt_nomor').val('628');
-        $('#tpt_nama_pemilik').focus();
+        $('#td_nama_dusun').val('');
+        $('#td_nama_dusun').focus();
         console.log('click_batal');
       }
     },
     on: {
       pageInit: function (page) {
         cek_localstorage();
-        console.log('pageInit pemilik tanah');
+        console.log('pageInit dusun');
 
         // import
         var self = this;
@@ -160,20 +155,20 @@
         var $ = self.$;
 
         window.screen.orientation.lock('portrait-primary');
+        
+        load_data_dusun();
 
-        load_data_pemilik_tanah();
-
-        var nama = $('#tpt_nama_pemilik').val();
+        var nama = $('#td_nama_dusun').val();
 
         // pengecekan setiap keyboard diketik
-        $('#tpt_nama_pemilik').keyup(function () {
+        $('#td_nama_dusun').keyup(function () {
           var dInput = this.value;
-          console.log($('#tpt_nama_pemilik').val());
+          console.log($('#td_nama_dusun').val());
 
           // ambil nilai
-          var nama = $('#tpt_nama_pemilik').val();
+          var nama = $('#td_nama_dusun').val();
           app.request({
-            url: api_pemilik_tanah_cari,
+            url: api_dusun_cari,
             method: 'POST',
             dataType: 'json',
             data: {
@@ -187,15 +182,15 @@
 
                 // menampilkan jumlah data
                 var totalData = data['meta']['totalData'];
-                $('#tpt_total_data').html(totalData);
+                $('#td_total_data').html(totalData);
 
                 var hasil = '';
                 // Find matched items
                 for (var i = 0; i < data['data'].length; i++) {
-                  var id = data['data'][i].id_pemilik_tanah;
-                  var na = data['data'][i].nama_pemilik;
+                  var id = data['data'][i].id_dusun;
+                  var na = data['data'][i].nama_dusun;
                   hasil += `<li>
-                    <a href="#" class="item-link item-content" data-kode="` + id + `" data-nama="` + na + `" onclick="click_pilih_pemilik_tanah(this)>
+                    <a href="#" class="item-link item-content" data-kode="` + id + `" data-nama="` + na + `">
                       <div class="item-media"><i class="f7-icons">doc_plaintext</i></div>
                       <div class="item-inner">
                         <div class="item-title">` + na + `</div>
@@ -203,21 +198,21 @@
                     </a>
                   </li>`;
                 }
-                $('#tpt_blok_data').html('<ul>' + hasil + '</ul>');
+                $('#td_blok_data').html('<ul>' + hasil + '</ul>');
               } else if (data['status'] == 'tidak_ditemukan') {
                 // menampilkan jumlah data
-                $('#tpt_total_data').html(0);
+                $('#td_total_data').html(0);
 
                 // hasil tampilan
                 hasil = `<li>
                   <a href="#" class="item-link item-content">
                     <div class="item-media"><i class="f7-icons">doc_plaintext</i></div>
                     <div class="item-inner">
-                      <div class="" style="font-size: 12px;">Pemilik <b>` + nama + `</b> tidak ditemukan. silahkan klik Tambah</div>
+                      <div class="" style="font-size: 12px;">Dusun <b>`+ nama + `</b> tidak ditemukan. silahkan klik Tambah</div>
                     </div>
                   </a>
                 </li>`;
-                $('#tpt_blok_data').html('<ul>' + hasil + '</ul>');
+                $('#td_blok_data').html('<ul>' + hasil + '</ul>');
               }
             }
           });
@@ -227,6 +222,8 @@
       },
       pageBeforeRemove: function () {
         console.log('pageBeforeRemove');
+
+        load_data_dusun_select();
       }
     }
   }
