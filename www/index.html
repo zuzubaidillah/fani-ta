@@ -681,7 +681,7 @@
           <h3>${currentFeature.properties.nama_pemilik}</h3>
           <h5>Jenis: <strong>${currentFeature.properties.nama_jenis_buah}<strong></h5>
           <h5>Dusun: <strong>${currentFeature.properties.nama_dusun}<strong></h5>
-          <h5>Ket: <strong>${currentFeature.properties.keterangan}<strong>...<a onclick="click_keterangan()">Baca</a></h5>
+          <h5>Ket: <strong>${currentFeature.properties.keterangan}<strong>...<a onclick="click_keterangan('${currentFeature.properties.id_set_titik_lokasi}')">Baca</a></h5>
           `)
           .addTo(map);
       }

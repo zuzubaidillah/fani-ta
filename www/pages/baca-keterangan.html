@@ -1,0 +1,77 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-bg"></div>
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a href="#" class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">Back</span>
+          </a>
+        </div>
+        <div class="title">Detail Buah</div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block">
+        <div class="row" id="bk_htmlIsi">
+          <div class="col-33"><b> Judul</b></div>
+          <div class="col-66">memuat...</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    methods: {},
+    on: {
+      pageBeforeRemove: function () {
+        console.log('pageBeforeRemove');
+      },
+      pageInit: function (page) {
+        var self = this;
+        console.log('Init');
+
+        var id = this.$route.query.id;
+        app.request.post(api_lokasi_id, {
+          id: id,
+          auth_key: localStorage.ls_id_user
+        }, function (data, status, xhr) {
+          console.log(data);
+          console.log(status);
+          // console.log(xhr);
+          // var linkSampul = data[0].cover;
+          // $('#htmlSampul').attr("src", linkSampul);
+
+          var isi = `<div class="col-33"><b> Pemilik</b></div>
+            <div class="col-66">` + data['data'][0].nama_pemilik + `</div>
+            <div class="col-33"><b> Jenis Buah</b></div>
+            <div class="col-66">` + data['data'][0].nama_jenis_buah + `</div>
+            <div class="col-33"><b> Buah</b></div>
+            <div class="col-66">` + data['data'][0].nama_buah + `</div>
+            <div class="col-33"><b> Dusun</b></div>
+            <div class="col-66">` + data['data'][0].nama_dusun + `</div>
+            <div class="col-33"><b> Desa</b></div>
+            <div class="col-66">` + data['data'][0].nama_desa + `</div>
+            <div class="col-99"><b> Keterangan</b></div>
+            <di]v class="col-99">` + data['data'][0].keterangan + `</di>`;
+          $('#bk_htmlIsi').html(isi);
+        }, function (xhr, status, message) {
+          // console.log(xhr);
+          console.log(status);
+          console.log(message);
+          
+          // panggil fungsi untuk menampilkan error
+          info_error(status);
+        }, "json");
+
+        // self.$setState({
+        //   judul: getJudul,
+        // });
+        // nilai = "jdl="+judul+"&pem="+pemain+"&th="+tahun+"&rate="+rating+"&sampul="+cover+"&des="+sinopsis;
+      }
+    }
+  }
+</script>

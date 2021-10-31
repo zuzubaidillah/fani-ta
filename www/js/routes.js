@@ -32,6 +32,10 @@ var routes = [
     componentUrl: './pages/tambah-jenis-buah.html',
   },
   {
+    path: '/baca-keterangan/',
+    componentUrl: './pages/baca-keterangan.html',
+  },
+  {
     path: '/pengguna/',
     componentUrl: './pages/pengguna.html',
   },

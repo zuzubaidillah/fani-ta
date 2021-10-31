@@ -221,3 +221,7 @@ function load_lokasi_all(mapTitikLokasi) {
     info_error(status);
   }, "json");
 }
+
+function click_keterangan(id) {
+  app.views.main.router.navigate("/baca-keterangan/?id="+id);
+}
