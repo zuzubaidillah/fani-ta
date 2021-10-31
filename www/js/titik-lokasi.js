@@ -39,7 +39,7 @@ class Titiklokasi {
       const coordinates = stores.all_coordinates;
 
       console.log(coordinates);
-      if (coordinates.length>1) {
+      if (coordinates.length > 1) {
         // Create a 'LngLatBounds' with both corners at the first coordinate.
         const bounds = new mapboxgl.LngLatBounds(
           coordinates[0],
@@ -52,7 +52,7 @@ class Titiklokasi {
           bounds.extend(coord);
           console.log(bounds.extend(coord));
         }
-  
+
         this.mapT.fitBounds(bounds, {
           padding: 80
         });
@@ -60,7 +60,7 @@ class Titiklokasi {
     });
   }
 
-  mapp(){
+  mapp() {
     const mapTitikLokasi = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10',
@@ -149,19 +149,20 @@ function ketikan_kata_kunci() {
     if (data['status'] === 'sukses') {
       var hasil = data['data'];
 
-      // var mapTitikLokasi = new Clasmap();
-      // mapTitikLokasi.fungsi_map();
+      // intinya kalo diluarnegri itu dibalik dengan indonesia
+      // center: [-77.034084142948, 38.909671288923],
+      // center: [112.12977836991575, -7.5835187395641555],
       const mmap = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/light-v10',
-        center: [-77.034084142948, 38.909671288923],
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [112.12977836991575, -7.5835187395641555],
         zoom: 11,
         scrollZoom: true
       });
       var mapp = new Titiklokasi(mmap);
       mapp.tampilMap(hasil);
     } else if (data['status'] === 'auth_salah') {
-      app.dialog.alert('Terjadi '+data['message']+' Login Kembali!', 'Pemberitahuan', function(){
+      app.dialog.alert('Terjadi ' + data['message'] + ' Login Kembali!', 'Pemberitahuan', function () {
         click_logout();
       });
     } else {
@@ -203,7 +204,7 @@ function load_lokasi_all(mapTitikLokasi) {
       var mapp = new Titiklokasi(mapTitikLokasi);
       mapp.tampilMap(hasil);
     } else if (data['status'] === 'auth_salah') {
-      app.dialog.alert('Terjadi '+data['message']+' Login Kembali!', 'Pemberitahuan', function(){
+      app.dialog.alert('Terjadi ' + data['message'] + ' Login Kembali!', 'Pemberitahuan', function () {
         click_logout();
       });
     } else {

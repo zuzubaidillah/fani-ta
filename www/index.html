@@ -178,10 +178,10 @@
       margin-top: -15px;
     }
 
-    .mapboxgl-popup-content h4 {
+    .mapboxgl-popup-content h5 {
       margin: 0;
-      padding: 10px;
-      font-weight: 400;
+      padding-left: 10px;
+      font-weight: 300;
     }
 
     .mapboxgl-popup-content div {
@@ -628,13 +628,13 @@
           link.className = 'title';
           link.style = `color: #404040; text-decoration: none;`;
           link.id = `link-${store.properties.id}`;
-          link.innerHTML = `${store.properties.dusun}`;
+          link.innerHTML = `${store.properties.nama_jenis_buah}`;
 
           /* Add details to the individual listing. */
           const details = listing.appendChild(document.createElement('div'));
-          details.innerHTML = `${store.properties.desa}`;
+          details.innerHTML = `${store.properties.nama_buah}`;
           // if (store.properties.nama) {
-          details.innerHTML += ` &middot; ${store.properties.nama_user}`;
+          details.innerHTML += ` &middot; User: ${store.properties.nama_user}`;
           // }
 
           link.addEventListener('click', function () {
@@ -677,9 +677,12 @@
             closeOnClick: false
           })
           .setLngLat(currentFeature.geometry.coordinates)
-          .setHTML(
-            `<h3>${currentFeature.properties.nama_buah}</h3>Pemilik: <h4>${currentFeature.properties.pemilik_tanah}</h4>`
-          )
+          .setHTML(`
+          <h3>${currentFeature.properties.nama_pemilik}</h3>
+          <h5>Jenis: <strong>${currentFeature.properties.nama_jenis_buah}<strong></h5>
+          <h5>Dusun: <strong>${currentFeature.properties.nama_dusun}<strong></h5>
+          <h5>Ket: <strong>${currentFeature.properties.keterangan}<strong>...<a onclick="click_keterangan()">Baca</a></h5>
+          `)
           .addTo(map);
       }
 

@@ -59,6 +59,7 @@ var api_users = url + "users";
 
 var api_lokasi_all = url + "lokasi/all";
 var api_lokasi_cari = url + "lokasi/cari";
+var api_lokasi_tambah = url + "lokasi/tambah";
 
 var api_pemilik_tanah_all = url + "pemilik_tanah/all";
 var api_pemilik_tanah_cari = url + "pemilik_tanah/cari";

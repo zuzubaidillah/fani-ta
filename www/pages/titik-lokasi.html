@@ -39,10 +39,13 @@
         window.screen.orientation.lock('landscape-primary');
         console.log('pageInit ' + screen.orientation.type); // e.g. portrait
 
+        // intinya kalo diluarnegri itu dibalik dengan indonesia
+          // center: [-77.034084142948, 38.909671288923],
+          // center: [112.12977836991575, -7.5835187395641555],
         const mapTitikLokasi = new mapboxgl.Map({
           container: 'map',
-          style: 'mapbox://styles/mapbox/light-v10',
-          center: [-77.034084142948, 38.909671288923],
+          style: 'mapbox://styles/mapbox/streets-v11',
+          center: [112.12977836991575, -7.5835187395641555],
           zoom: 11,
           scrollZoom: true
         });
