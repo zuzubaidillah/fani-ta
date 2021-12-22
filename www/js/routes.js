@@ -40,12 +40,20 @@ var routes = [
     componentUrl: './pages/pengguna.html',
   },
   {
+    path: '/pengguna-tambah/',
+    componentUrl: './pages/tambah-pengguna.html',
+  },
+  {
+    path: '/pengguna-edit/',
+    componentUrl: './pages/pengguna-edit.html',
+  },
+  {
     path: '/ganti-password/',
     componentUrl: './pages/ganti-password.html',
   },
   {
-    path: '/riwayat-transaksi/',
-    componentUrl: './pages/riwayat-transaksi.html',
+    path: '/rekap-varietas/',
+    componentUrl: './pages/rekap-varietas.html',
   },
 
   // Default route (404 page). MUST BE THE LAST

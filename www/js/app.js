@@ -49,13 +49,17 @@ var app = new Framework7({
 });
 
 var url = "http://localhost/fani-ta/server-api/";
-// var url = "https://gis.informatikaunwaha.com/ApiMobile/";
-
+// var url = "https://madrasatulquran.sch.id/ciganjur/";
 
 var api_users_cek_data = url + "users/cek_data";
 var api_users_register = url + "users/register";
 var api_users_login = url + "users/login";
-var api_users = url + "users";
+var api_data_pengguna = url + "users";
+var api_pengguna_tambah = url + "users/tambah";
+var api_pengguna_edit = url + "users/edit";
+var api_pengguna_edit_proses = url + "users/edit_proses";
+var api_pengguna_hapus = url + "users/hapus";
+var api_pengguna_ganti_password = url + "users/ganti_password";
 
 var api_lokasi_all = url + "lokasi/all";
 var api_lokasi_cari = url + "lokasi/cari";

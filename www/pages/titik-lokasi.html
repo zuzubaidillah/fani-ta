@@ -1,63 +1,63 @@
 <template>
-  <div class="page">
-    <div class="sidebarSendiri">
-      <div class="headingSendiri" id="html_heading">
-        <a href="#" class="link back text-color-white" id="btnBackPeta">
-          <i class="icon icon-back"></i>
-        </a>
-        <h1 style="
+	<div class="page">
+		<div class="sidebarSendiri">
+			<div class="headingSendiri" id="html_heading">
+				<a href="#" class="link back text-color-white" id="btnBackPeta">
+					<i class="icon icon-back"></i>
+				</a>
+				<h1 style="
                 font-size: 22px;
                 margin: 0;
                 font-weight: 400;
                 line-height: 20px;
                 padding: 20px 2px;">List Lokasi</h1>
 
-        <a href="#" class="text-color-white" id="btnSearchPeta" onclick="click_search()">
-          <i class="icon f7-icons if-not-md">search</i>
-          <i class="icon material-icons md-only">search</i>
-        </a>
-      </div>
-      <div id="listings" class="listings"></div>
-    </div>
-    <div id="map" class="map">
-    </div>
-  </div>
+				<a href="#" class="text-color-white" id="btnSearchPeta" onclick="click_search()">
+					<i class="icon f7-icons if-not-md">search</i>
+					<i class="icon material-icons md-only">search</i>
+				</a>
+			</div>
+			<div id="listings" class="listings"></div>
+		</div>
+		<div id="map" class="map">
+		</div>
+	</div>
 </template>
 <style scoped>
-  .rotate-icon {
-    transform: rotate(90deg);
-  }
+	.rotate-icon {
+		transform: rotate(90deg);
+	}
 </style>
 <script>
-  return {
-    methods: {},
-    on: {
-      pageAfterIn: function () {
-        console.log('pageAfterIn');
-      },
-      pageInit: function () {
-        window.screen.orientation.lock('landscape-primary');
-        console.log('pageInit ' + screen.orientation.type); // e.g. portrait
+	return {
+		methods: {},
+		on: {
+			pageAfterIn: function () {
+				console.log('pageAfterIn');
+			},
+			pageInit: function () {
+				window.screen.orientation.lock('landscape-primary');
+				console.log('pageInit ' + screen.orientation.type); // e.g. portrait
 
-        // intinya kalo diluarnegri itu dibalik dengan indonesia
-          // center: [-77.034084142948, 38.909671288923],
-          // center: [112.12977836991575, -7.5835187395641555],
-        const mapTitikLokasi = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/streets-v11',
-          center: [112.12977836991575, -7.5835187395641555],
-          zoom: 11,
-          scrollZoom: true
-        });
-        localStorage.setItem('mapTitikLokasi', mapTitikLokasi);
-        load_lokasi_all(mapTitikLokasi);
+				// intinya kalo diluarnegri itu dibalik dengan indonesia
+				// center: [-77.034084142948, 38.909671288923],
+				// center: [112.12977836991575, -7.5835187395641555],
+				const mapTitikLokasi = new mapboxgl.Map({
+					container: 'map',
+					style: 'mapbox://styles/mapbox/streets-v11',
+					center: [112.12977836991575, -7.5835187395641555],
+					zoom: 11,
+					scrollZoom: true
+				});
+				localStorage.setItem('mapTitikLokasi', mapTitikLokasi);
+				load_lokasi_all(mapTitikLokasi);
 
-      },
-      pageBeforeRemove: function () {
-        console.log('pageBeforeRemove');
-        window.screen.orientation.lock('portrait-primary');
-        console.log('pageBeforeRemove ' + screen.orientation.type); // e.g. portrait
-      }
-    }
-  }
+			},
+			pageBeforeRemove: function () {
+				console.log('pageBeforeRemove');
+				window.screen.orientation.lock('portrait-primary');
+				console.log('pageBeforeRemove ' + screen.orientation.type); // e.g. portrait
+			}
+		}
+	}
 </script>

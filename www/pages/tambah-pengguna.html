@@ -1,0 +1,151 @@
+<template>
+	<div class="page">
+		<div class="navbar">
+			<div class="navbar-bg"></div>
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="#" class="link back">
+						<i class="icon icon-back"></i>
+						<span class="if-not-md">Back</span>
+					</a>
+				</div>
+				<div class="title">Data Pengguna</div>
+			</div>
+		</div>
+		<div class="page-content">
+			<form>
+				<div class="row">
+					<div class="col-20">
+					</div>
+					<div class="col-80">
+					</div>
+				</div>
+				<div class="list no-hairlines-md">
+					<ul>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Nama Pengguna</div>
+								<div class="item-input-wrap">
+									<input type="text" id="tpg_nama" autofocus autocomplete="off"/>
+								</div>
+							</div>
+						</li>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Username</div>
+								<div class="item-input-wrap">
+									<input type="text" id="tpg_username" autocomplete="off"/>
+								</div>
+							</div>
+						</li>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Password</div>
+								<div class="item-input-wrap">
+									<input type="password" id="tpg_password" autocomplete="off"/>
+								</div>
+							</div>
+						</li>
+						<li class="item-content item-input">
+							<div class="item-inner">
+								<div class="item-title item-label">Nomor Whatsapp</div>
+								<div class="item-input-wrap">
+									<input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15" type="number" id="tpg_no_wa" autocomplete="off"/>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="list block">
+					<ul>
+						<li style="margin-bottom: 5px;" class="row">
+							<a href="#"
+							   class="col button button-fill color-blue"
+							   @click="click_simpan_pengguna">Simpan</a>
+							<a href="#" class="col button button-fill color-red" @click="click_batal_pengguna">Batal</a>
+						</li>
+					</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+</template>
+<script>
+	return {
+		methods: {
+			click_simpan_pengguna: function () {
+				var self = this;
+				var app = self.$app;
+				var fruits = self.fruits;
+				var $ = self.$;
+
+				var nama = $('#tpg_nama').val();
+				var no_wa = $('#tpg_no_wa').val();
+				var username = $('#tpg_username').val();
+				var password = $('#tpg_password').val();
+				console.log(nama,no_wa,username);
+
+				if (nama == '' ||no_wa == '' ||username == '' ||password == '') {
+					app.dialog.alert('Data ada yang kosong!', 'Pemberitahuan');
+					return;
+				}
+
+				app.request.post(api_pengguna_tambah, {
+					auth_key: localStorage.ls_id_user,
+					nama: nama,
+					no_wa: no_wa,
+					username: username,
+					password: password,
+				}, function (data, status, xhr) {
+					console.log(data);
+					console.log(status);
+					// console.log(xhr);
+
+					// cek jika status yang dikirim dari backend adalah Sukses
+					if (data['status'] === 'sukses') {
+						app.dialog.alert(data['message'], 'Pemberitahuan', function () {
+							// menghilangkan text pada input dengan attribute td_nama_dusun
+							self.click_batal_pengguna();
+						});
+					} else if (data['status'] === 'auth_salah') {
+						app.dialog.alert('Terjadi '+data['message']+' Login Kembali!', 'Pemberitahuan', function(){
+							click_logout();
+						});
+					} else if (data['status'] === 'error') {
+						app.dialog.alert(data['message'], 'Pemberitahuan');
+					}
+
+				}, function (xhr, status, message) {
+					// console.log(xhr);
+					console.log(status);
+					console.log(message);
+					// panggil fungsi untuk menampilkan error
+					info_error(status);
+				}, "json");
+			},
+			click_batal_pengguna: function () {
+				$('#tpg_nama').val('');
+				$('#tpg_no_wa').val('');
+				$('#tpg_username').val('');
+				$('#tpg_password').val('');
+				$('#tpg_nama').focus();
+			},
+		},
+		on: {
+			pageInit: function (page) {
+				// console.log('pageInit');
+				var self = this;
+				var app = self.$app;
+				var fruits = self.fruits;
+				var $ = self.$;
+
+				window.screen.orientation.lock('portrait-primary');
+
+			},
+			pageBeforeRemove: function () {
+				console.log('pageBeforeRemove-tambah-pengguna');
+				load_data_pengguna();
+			}
+		}
+	}
+</script>

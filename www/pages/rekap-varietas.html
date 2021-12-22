@@ -1,0 +1,59 @@
+<template>
+	<div class="page">
+		<div class="navbar">
+			<div class="navbar-bg"></div>
+			<div class="navbar-inner sliding">
+				<div class="left">
+					<a href="#" class="link back">
+						<i class="icon icon-back"></i>
+						<span class="if-not-md">Back</span>
+					</a>
+				</div>
+				<div class="title">Rekap Data</div>
+			</div>
+		</div>
+		<div class="page-content">
+
+			<div class="data-table">
+				<table>
+					<thead>
+					<tr>
+						<th class="label-cell">No</th>
+						<th class="numeric-cell">Nama</th>
+						<th class="numeric-cell">Nomor WA</th>
+						<th class="numeric-cell">Username</th>
+						<th class="numeric-cell">Tanggal Daftar</th>
+						<th class="">Aksi</th>
+					</tr>
+					</thead>
+					<tbody id="html_data_pengguna">
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</template>
+<script>
+	return {
+		methods: {
+			rekap_varites: function () {
+				console.log('rekap varites');
+			}
+		},
+		on: {
+			pageInit: function (page) {
+				console.log('pageInit rekap-varites.html');
+				var self = this;
+				var app = self.$app;
+				var $ = self.$;
+
+				window.screen.orientation.lock('portrait-primary');
+
+			},
+			pageBeforeRemove: function () {
+				console.log('pageBeforeRemove rekap-varites.html');
+			}
+		}
+	}
+</script>
