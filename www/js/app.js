@@ -78,5 +78,7 @@ var api_jenis_buah_all = url + "jenis_buah/all";
 var api_jenis_buah_cari = url + "jenis_buah/cari";
 var api_jenis_buah_tambah = url + "jenis_buah/tambah";
 
+var api_data_rekap_varietas = url + "rekap";
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiYXJpZnJhY2htYW4iLCJhIjoiY2sxNGdneWpvMGJ5YTNjcnRrNWgwa2N0biJ9.aCcIajF5mmbEHoZ8c0HxOA';

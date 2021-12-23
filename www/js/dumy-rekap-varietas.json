@@ -1,19 +1,61 @@
 {
-  "type": "FeatureCollection",
-  "features": [
+  "code": 200,
+  "status": "sukses",
+  "message": "data ditemukan",
+  "data": [
     {
-      "type": "Feature",
-      "properties": {
-        "description": "",
-        "title": "???"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          112.23344889101912,
-          -7.55676746650353
-        ]
-      }
+      "nama_dusun": "Dusun 1",
+      "nama_desa": "Desa 1",
+      "id_dusun": "1",
+      "data_buah": [
+        {
+          "nama_jenis_buah": "buah 1",
+          "id_jenis_buah": "1",
+          "jumlah": 9
+        },
+        {
+          "nama_jenis_buah": "buah 2",
+          "id_jenis_buah": "2",
+          "jumlah": 2
+        },
+        {
+          "nama_jenis_buah": "buah 3",
+          "id_jenis_buah": "3",
+          "jumlah": 3
+        },
+        {
+          "nama_jenis_buah": "buah 4",
+          "id_jenis_buah": "4",
+          "jumlah": 5
+        }
+      ]
+    },
+    {
+      "nama_dusun": "Dusun 2",
+      "nama_desa": "Desa 2",
+      "id_dusun": "2",
+      "data_buah": [
+        {
+          "nama_jenis_buah": "buah 1",
+          "id_jenis_buah": "1",
+          "jumlah": 9
+        },
+        {
+          "nama_jenis_buah": "buah 2",
+          "id_jenis_buah": "2",
+          "jumlah": 2
+        },
+        {
+          "nama_jenis_buah": "buah 3",
+          "id_jenis_buah": "3",
+          "jumlah": 3
+        },
+        {
+          "nama_jenis_buah": "buah 4",
+          "id_jenis_buah": "4",
+          "jumlah": 5
+        }
+      ]
     }
   ]
 }
