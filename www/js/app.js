@@ -48,8 +48,8 @@ var app = new Framework7({
   }
 });
 
-var url = "http://localhost/fani-ta/server-api/";
-// var url = "https://madrasatulquran.sch.id/ciganjur/";
+// var url = "http://localhost/fani-ta/server-api/";
+var url = "https://madrasatulquran.sch.id/ciganjur/";
 
 var api_users_cek_data = url + "users/cek_data";
 var api_users_register = url + "users/register";
